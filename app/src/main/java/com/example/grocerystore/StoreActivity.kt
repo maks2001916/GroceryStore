@@ -38,7 +38,7 @@ class StoreActivity : AppCompatActivity() {
         setContentView(R.layout.activity_store)
 
         toolbarTB = findViewById(R.id.toolbarStore)
-        imageIV = findViewById(R.id.imageIV)
+        imageIV = findViewById(R.id.editImageIV)
         titleET = findViewById(R.id.titleET)
         priceET = findViewById(R.id.priceET)
         saveBTN = findViewById(R.id.addBTN)
