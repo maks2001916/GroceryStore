@@ -7,15 +7,14 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ListView
-import android.widget.Toolbar
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.appcompat.widget.Toolbar
 import java.io.IOException
 
 class StoreActivity : AppCompatActivity() {
@@ -44,7 +43,7 @@ class StoreActivity : AppCompatActivity() {
         saveBTN = findViewById(R.id.addBTN)
         grocerysLV = findViewById(R.id.grocerysLV)
 
-        //setSupportActionBar(toolbarTB)
+        setSupportActionBar(toolbarTB)
 
         imageIV.setOnClickListener {
             val photoPickerIntent = Intent(Intent.ACTION_PICK)
@@ -62,6 +61,7 @@ class StoreActivity : AppCompatActivity() {
             val listAdapter = ListAdapter(this@StoreActivity, grocerys)
             grocerysLV.adapter = listAdapter
             listAdapter.notifyDataSetChanged()
+            //bitmap = null
             titleET.text.clear()
             priceET.text.clear()
             imageIV.setImageResource(R.drawable.baseline_shopping_basket_24)
@@ -75,18 +75,20 @@ class StoreActivity : AppCompatActivity() {
         return true
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {R.id.exit -> finishAffinity() }
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        imageIV = findViewById(R.id.imageIV)
-        when (resultCode) {
-            GALLERY_REQUEST -> if (resultCode === RESULT_OK) {
-                val selectedImage: Uri? = data?.data
-                try {
-                    bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedImage)
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
+        if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK) {
+            val selectedImage: Uri? = data?.data
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedImage)
                 imageIV.setImageBitmap(bitmap)
+            } catch (e: IOException) {
+                e.printStackTrace()
             }
         }
     }
