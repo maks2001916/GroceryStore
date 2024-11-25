@@ -1,6 +1,7 @@
 package com.example.grocerystore
 
 import android.content.Context
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +22,7 @@ ArrayAdapter<Grocery>(context, R.layout.list_item, groceryList){
         val titleTV = view?.findViewById<TextView>(R.id.titleTV)
         val priceTV = view?.findViewById<TextView>(R.id.priceTV)
 
-        imageViewIV?.setImageBitmap(grocery?.image)
+        imageViewIV?.setImageURI(Uri.parse(grocery?.image))
         titleTV?.text = grocery?.title
         priceTV?.text = grocery?.price
 

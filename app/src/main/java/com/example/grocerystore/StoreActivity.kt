@@ -20,7 +20,7 @@ import java.io.IOException
 class StoreActivity : AppCompatActivity() {
 
     private val GALLERY_REQUEST = 302
-    var bitmap: Bitmap? = null
+    var photoUri: Uri? = null
     var grocerys: MutableList<Grocery> = mutableListOf()
 
     private lateinit var toolbarTB: Toolbar
@@ -54,7 +54,7 @@ class StoreActivity : AppCompatActivity() {
         saveBTN.setOnClickListener {
             val title = titleET.text.toString()
             val price = priceET.text.toString()
-            val image = bitmap
+            val image = photoUri.toString()
             val grocery = Grocery(title, price, image)
             grocerys.add(grocery)
 
@@ -65,6 +65,7 @@ class StoreActivity : AppCompatActivity() {
             titleET.text.clear()
             priceET.text.clear()
             imageIV.setImageResource(R.drawable.baseline_shopping_basket_24)
+            photoUri = null
 
         }
 
@@ -83,13 +84,8 @@ class StoreActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK) {
-            val selectedImage: Uri? = data?.data
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedImage)
-                imageIV.setImageBitmap(bitmap)
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
+            photoUri = data?.data
+            imageIV.setImageURI(photoUri)
         }
     }
 

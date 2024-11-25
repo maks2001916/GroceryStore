@@ -6,4 +6,6 @@
     <string name="price">Цена</string>
     <string name="add">Добавить</string>
     <string name="exit">Выйти</string>
+    <string name="description">Описание</string>
+    <string name="toReturn">Вернуться</string>
 </resources>

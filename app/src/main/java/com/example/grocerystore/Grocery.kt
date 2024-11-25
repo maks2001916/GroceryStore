@@ -5,5 +5,5 @@ import android.graphics.Bitmap
 class Grocery(
     val title: String,
     val price: String,
-    val image: Bitmap?
+    val image: String?
 )
