@@ -18,6 +18,7 @@ class ProductInfoActivity : AppCompatActivity() {
     private lateinit var priceET: EditText
     private lateinit var descriptionET: EditText
     private lateinit var toReturnBTN: Button
+    private lateinit var saveBTN: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +31,11 @@ class ProductInfoActivity : AppCompatActivity() {
         priceET = findViewById(R.id.priceInfoET)
         descriptionET = findViewById(R.id.descriptionInfoET)
         toReturnBTN = findViewById(R.id.toReturnBTN)
+        saveBTN = findViewById(R.id.saveBTN)
 
+        saveBTN.setOnClickListener {
+
+        }
         toReturnBTN.setOnClickListener { finish() }
     }
 }
