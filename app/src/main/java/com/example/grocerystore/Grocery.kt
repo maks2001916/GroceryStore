@@ -1,9 +1,9 @@
 package com.example.grocerystore
 
-import android.graphics.Bitmap
+import java.io.Serializable
 
 class Grocery(
     val title: String,
     val price: String,
     val image: String?
-)
+) : Serializable

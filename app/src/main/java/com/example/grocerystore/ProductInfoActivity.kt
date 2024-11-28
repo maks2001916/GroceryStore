@@ -1,5 +1,6 @@
 package com.example.grocerystore
 
+import android.content.Context
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -12,6 +13,15 @@ import androidx.core.view.WindowInsetsCompat
 
 class ProductInfoActivity : AppCompatActivity() {
 
+    private var removable: Removable? = null
+    private var updatable: Updatable? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        removable = context as Removable?
+        updatable = context as Updatable?
+    }
+
     private lateinit var toolbarTB: Toolbar
     private lateinit var imageIV: ImageView
     private lateinit var titleET: EditText
@@ -19,6 +29,7 @@ class ProductInfoActivity : AppCompatActivity() {
     private lateinit var descriptionET: EditText
     private lateinit var toReturnBTN: Button
     private lateinit var saveBTN: Button
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

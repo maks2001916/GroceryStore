@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), Removable, Updatable {
 
     private lateinit var greetingTV: TextView
     private lateinit var createBTN: Button
@@ -29,5 +29,13 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+    }
+
+    override fun remove(grocery: Grocery) {
+        TODO("Not yet implemented")
+    }
+
+    override fun update(grocery: Grocery) {
+        TODO("Not yet implemented")
     }
 }

@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.AdapterView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -15,13 +16,16 @@ import android.widget.ListView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import java.io.IOException
 
 class StoreActivity : AppCompatActivity() {
 
+    var grocery: Grocery? = null
+
     private val GALLERY_REQUEST = 302
     var photoUri: Uri? = null
+    var listAdapter: ListAdapter? = null
     var grocerys: MutableList<Grocery> = mutableListOf()
+    var item: Int? = null
 
     private lateinit var toolbarTB: Toolbar
     private lateinit var imageIV: ImageView
@@ -68,6 +72,17 @@ class StoreActivity : AppCompatActivity() {
             photoUri = null
 
         }
+
+        grocerysLV.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, view, position, id ->
+                var grocery = listAdapter!!.getItem(position)
+                item = position
+                var dialog = GroceryAlertDialog()
+                var args = Bundle()
+                args.putSerializable("grocery", grocery)
+                dialog.arguments = args
+                dialog.show(supportFragmentManager, "custom")
+            }
 
     }
 
