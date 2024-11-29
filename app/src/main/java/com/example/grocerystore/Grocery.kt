@@ -3,7 +3,8 @@ package com.example.grocerystore
 import java.io.Serializable
 
 class Grocery(
-    val title: String,
-    val price: String,
-    val image: String?
+    var title: String,
+    var price: String,
+    var description: String,
+    var image: String?
 ) : Serializable

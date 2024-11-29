@@ -2,10 +2,8 @@ package com.example.grocerystore
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.AdapterView
@@ -14,10 +12,11 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ListView
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 
-class StoreActivity : AppCompatActivity() {
+class StoreActivity : AppCompatActivity(), Removable, Updatable {
 
     var grocery: Grocery? = null
 
@@ -26,6 +25,7 @@ class StoreActivity : AppCompatActivity() {
     var listAdapter: ListAdapter? = null
     var grocerys: MutableList<Grocery> = mutableListOf()
     var item: Int? = null
+    var check = true
 
     private lateinit var toolbarTB: Toolbar
     private lateinit var imageIV: ImageView
@@ -55,17 +55,17 @@ class StoreActivity : AppCompatActivity() {
             startActivityForResult(photoPickerIntent, GALLERY_REQUEST)
         }
 
+
         saveBTN.setOnClickListener {
             val title = titleET.text.toString()
             val price = priceET.text.toString()
             val image = photoUri.toString()
-            val grocery = Grocery(title, price, image)
-            grocerys.add(grocery)
+            grocery = Grocery(title, price, "", image)
+            grocerys.add(grocery!!)
 
             val listAdapter = ListAdapter(this@StoreActivity, grocerys)
             grocerysLV.adapter = listAdapter
             listAdapter.notifyDataSetChanged()
-            //bitmap = null
             titleET.text.clear()
             priceET.text.clear()
             imageIV.setImageResource(R.drawable.baseline_shopping_basket_24)
@@ -75,15 +75,32 @@ class StoreActivity : AppCompatActivity() {
 
         grocerysLV.onItemClickListener =
             AdapterView.OnItemClickListener { parent, view, position, id ->
-                var grocery = listAdapter!!.getItem(position)
+                grocery = listAdapter!!.getItem(position)
                 item = position
-                var dialog = GroceryAlertDialog()
-                var args = Bundle()
+                val dialog = GroceryAlertDialog()
+                val args = Bundle()
                 args.putSerializable("grocery", grocery)
                 dialog.arguments = args
-                dialog.show(supportFragmentManager, "custom")
+                dialog.show(supportFragmentManager, "grocery")//custom
             }
 
+    }
+
+    private val launchSomeActivity = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+            result ->
+        if (result.resultCode == RESULT_OK) {
+            val data = result.data
+            val item = data!!.getIntExtra("item", 0)
+            grocerys.get(item).title = data.getIntExtra("title", 0).toString()
+            grocerys.get(item).price = data.getIntExtra("price", 0).toString()
+            grocerys.get(item).description = data.getIntExtra("description", 0).toString()
+            grocerys.get(item).image = data.getIntExtra("image", 0).toString()
+
+        } else {
+
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -102,6 +119,20 @@ class StoreActivity : AppCompatActivity() {
             photoUri = data?.data
             imageIV.setImageURI(photoUri)
         }
+    }
+
+    override fun remove(grocery: Grocery) {
+        listAdapter?.remove(grocery)
+    }
+
+    override fun update(grocery: Grocery) {
+        var intentInfo = Intent(this, GroceryInfoActivity::class.java)
+        intentInfo.putExtra("grocery", grocery)
+        intentInfo.putExtra("grocerys", this.grocerys as ArrayList<Grocery>)
+        intentInfo.putExtra("position", item)
+        intentInfo.putExtra("check", check)
+        startActivity(intentInfo)
+        launchSomeActivity.launch(intentInfo)
     }
 
 }

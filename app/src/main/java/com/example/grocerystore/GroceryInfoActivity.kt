@@ -1,6 +1,6 @@
 package com.example.grocerystore
 
-import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -8,19 +8,9 @@ import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.core.net.toUri
 
-class ProductInfoActivity : AppCompatActivity() {
-
-    private var removable: Removable? = null
-    private var updatable: Updatable? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        removable = context as Removable?
-        updatable = context as Updatable?
-    }
+class GroceryInfoActivity : AppCompatActivity() {
 
     private lateinit var toolbarTB: Toolbar
     private lateinit var imageIV: ImageView
@@ -43,10 +33,26 @@ class ProductInfoActivity : AppCompatActivity() {
         descriptionET = findViewById(R.id.descriptionInfoET)
         toReturnBTN = findViewById(R.id.toReturnBTN)
         saveBTN = findViewById(R.id.saveBTN)
+        setGroceryFeatures()
+
 
         saveBTN.setOnClickListener {
+            intent = Intent()
+            intent.putExtra("title", titleET.text.toString())
+            intent.putExtra("price", priceET.text.toString())
+            intent.putExtra("description", descriptionET.text.toString())
+            intent.putExtra("image", imageIV.toString())
+            intent.putExtra("check", false)
 
         }
         toReturnBTN.setOnClickListener { finish() }
+    }
+
+    fun setGroceryFeatures() {
+        intent = Intent()
+        titleET.setText(intent.getStringExtra("title"))
+        priceET.setText(intent.getStringExtra("price"))
+        descriptionET.setText(intent.getStringExtra("description"))
+        imageIV.setImageURI(intent.getStringExtra("image").toString().toUri())
     }
 }

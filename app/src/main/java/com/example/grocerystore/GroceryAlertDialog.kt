@@ -3,7 +3,6 @@ package com.example.grocerystore
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 
@@ -32,11 +31,6 @@ class GroceryAlertDialog: DialogFragment() {
             }
             .setNeutralButton("Редактировать") { dialog, which ->
                 updatable?.update(grocery as Grocery)
-            }
-            .setNegativeButton("редактировать") { dialog, which ->
-                var infoIntent = Intent(this.context, ProductInfoActivity::class.java)
-                startActivity(infoIntent)
-
             }
             .create()
     }
