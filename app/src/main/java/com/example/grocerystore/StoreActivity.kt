@@ -24,6 +24,7 @@ class StoreActivity : AppCompatActivity(), Removable, Updatable {
     var photoUri: Uri? = null
     var listAdapter: ListAdapter? = null
     var grocerys: MutableList<Grocery> = mutableListOf()
+
     var item: Int? = null
     var check = true
 
@@ -62,10 +63,9 @@ class StoreActivity : AppCompatActivity(), Removable, Updatable {
             val image = photoUri.toString()
             grocery = Grocery(title, price, "", image)
             grocerys.add(grocery!!)
-
-            val listAdapter = ListAdapter(this@StoreActivity, grocerys)
+            listAdapter = ListAdapter(this@StoreActivity, grocerys)
             grocerysLV.adapter = listAdapter
-            listAdapter.notifyDataSetChanged()
+            listAdapter!!.notifyDataSetChanged()
             titleET.text.clear()
             priceET.text.clear()
             imageIV.setImageResource(R.drawable.baseline_shopping_basket_24)
@@ -93,10 +93,10 @@ class StoreActivity : AppCompatActivity(), Removable, Updatable {
         if (result.resultCode == RESULT_OK) {
             val data = result.data
             val item = data!!.getIntExtra("item", 0)
-            grocerys.get(item).title = data.getIntExtra("title", 0).toString()
-            grocerys.get(item).price = data.getIntExtra("price", 0).toString()
-            grocerys.get(item).description = data.getIntExtra("description", 0).toString()
-            grocerys.get(item).image = data.getIntExtra("image", 0).toString()
+            grocerys[item].title = data.getStringExtra("title").toString()
+            grocerys[item].price = data.getStringExtra("price").toString()
+            grocerys[item].description = data.getStringExtra("description").toString()
+            grocerys[item].image = data.getStringExtra("image").toString()
 
         } else {
 
