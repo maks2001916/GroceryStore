@@ -1,6 +1,7 @@
 package com.example.grocerystore
 
 import android.annotation.SuppressLint
+import android.content.ClipDescription
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -32,6 +33,7 @@ class StoreActivity : AppCompatActivity(), Removable, Updatable {
     private lateinit var imageIV: ImageView
     private lateinit var titleET: EditText
     private lateinit var priceET: EditText
+    private lateinit var description: EditText
     private lateinit var saveBTN: Button
     private lateinit var grocerysLV: ListView
 
@@ -45,6 +47,7 @@ class StoreActivity : AppCompatActivity(), Removable, Updatable {
         imageIV = findViewById(R.id.editImageIV)
         titleET = findViewById(R.id.titleET)
         priceET = findViewById(R.id.priceET)
+        description = findViewById(R.id.descriptionET)
         saveBTN = findViewById(R.id.addBTN)
         grocerysLV = findViewById(R.id.grocerysLV)
 
@@ -61,7 +64,8 @@ class StoreActivity : AppCompatActivity(), Removable, Updatable {
             val title = titleET.text.toString()
             val price = priceET.text.toString()
             val image = photoUri.toString()
-            grocery = Grocery(title, price, "", image)
+            val description = description.text.toString()
+            grocery = Grocery(title, price, description, image)
             grocerys.add(grocery!!)
             listAdapter = ListAdapter(this@StoreActivity, grocerys)
             grocerysLV.adapter = listAdapter

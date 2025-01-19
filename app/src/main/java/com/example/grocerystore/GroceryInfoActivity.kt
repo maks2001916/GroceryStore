@@ -50,9 +50,13 @@ class GroceryInfoActivity : AppCompatActivity() {
 
     fun setGroceryFeatures() {
         intent = Intent()
-        titleET.setText(intent.getStringExtra("title"))
-        priceET.setText(intent.getStringExtra("price"))
-        descriptionET.setText(intent.getStringExtra("description"))
-        imageIV.setImageURI(intent.getStringExtra("image").toString().toUri())
+        var title = intent.getStringExtra("title")
+        var price = intent.getStringExtra("price")
+        var description = intent.getStringExtra("description")
+        var image = intent.getStringExtra("image")
+        titleET.setText(title)
+        priceET.setText(price)
+        descriptionET.setText(description)
+        imageIV.setImageURI(image?.toUri())
     }
 }
