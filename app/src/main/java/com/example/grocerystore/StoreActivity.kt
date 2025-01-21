@@ -107,6 +107,17 @@ class StoreActivity : AppCompatActivity(), Removable, Updatable {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        check = intent.extras?.getBoolean("newCheck") ?: true
+        if (!check) {
+            grocerys = intent.getSerializableExtra("list") as MutableList<Grocery>
+            listAdapter = ListAdapter(this, grocerys)
+            check = true
+        }
+        grocerysLV.adapter = listAdapter
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.store_menu, menu)
         return true
