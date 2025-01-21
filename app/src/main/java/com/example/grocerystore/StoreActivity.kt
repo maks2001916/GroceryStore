@@ -135,7 +135,7 @@ class StoreActivity : AppCompatActivity(), Removable, Updatable {
         intentInfo.putExtra("grocerys", this.grocerys as ArrayList<Grocery>)
         intentInfo.putExtra("position", item)
         intentInfo.putExtra("check", check)
-        startActivity(intentInfo)
+        //startActivity(intentInfo)
         launchSomeActivity.launch(intentInfo)
     }
 

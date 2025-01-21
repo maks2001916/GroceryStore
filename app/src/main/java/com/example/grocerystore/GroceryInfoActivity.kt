@@ -1,6 +1,7 @@
 package com.example.grocerystore
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -33,30 +34,53 @@ class GroceryInfoActivity : AppCompatActivity() {
         descriptionET = findViewById(R.id.descriptionInfoET)
         toReturnBTN = findViewById(R.id.toReturnBTN)
         saveBTN = findViewById(R.id.saveBTN)
-        setGroceryFeatures()
+
+        var grocery: Grocery = intent.extras?.getSerializable("grocery") as Grocery
+        val grocerys = intent.getSerializableExtra("grocerys")
+        val item = intent.extras?.getInt("item")
+        var check = intent.extras?.getBoolean("check")
+
+        val title = grocery.title
+        val price = grocery.price
+        val description = grocery.description
+        val image: Uri? = Uri.parse(grocery.image)
+        titleET.setText(title)
+        priceET.setText(price)
+        descriptionET.setText(description)
+        imageIV.setImageURI(image)
 
 
         saveBTN.setOnClickListener {
-            intent = Intent()
-            intent.putExtra("title", titleET.text.toString())
-            intent.putExtra("price", priceET.text.toString())
-            intent.putExtra("description", descriptionET.text.toString())
-            intent.putExtra("image", imageIV.toString())
-            intent.putExtra("check", false)
+            var newGrocery = Grocery(
+                titleET.text.toString(),
+                priceET.text.toString(),
+                descriptionET.text.toString(),
+                grocery.image
+            )
+            val list: MutableList<Grocery> = grocerys as MutableList<Grocery>
+
+            if (item != null) {
+                swap(item, grocery, grocerys)
+            }
+            check = false
+
+            var resultIntent = Intent(this, StoreActivity::class.java)
+
+            resultIntent.putExtra("list", list as ArrayList<Grocery>)
+            //resultIntent.putExtra("price", priceET.text.toString())
+            //resultIntent.putExtra("description", descriptionET.text.toString())
+            //resultIntent.putExtra("image", imageIV.tag?.toString())
+            resultIntent.putExtra("newCheck", check)
+            startActivity(intent)
+            //finish()
+            //setResult(RESULT_OK, resultIntent)
 
         }
         toReturnBTN.setOnClickListener { finish() }
     }
 
-    fun setGroceryFeatures() {
-        intent = Intent()
-        var title = intent.getStringExtra("title")
-        var price = intent.getStringExtra("price")
-        var description = intent.getStringExtra("description")
-        var image = intent.getStringExtra("image")
-        titleET.setText(title)
-        priceET.setText(price)
-        descriptionET.setText(description)
-        imageIV.setImageURI(image?.toUri())
+    private fun swap(item: Int, grocery: Grocery, grocerys: MutableList<Grocery>) {
+        grocerys.add(item+1, grocery)
+        grocerys.removeAt(item)
     }
 }
