@@ -18,7 +18,6 @@ class GroceryInfoActivity : AppCompatActivity() {
     private lateinit var titleET: EditText
     private lateinit var priceET: EditText
     private lateinit var descriptionET: EditText
-    private lateinit var toReturnBTN: Button
     private lateinit var saveBTN: Button
 
 
@@ -32,7 +31,6 @@ class GroceryInfoActivity : AppCompatActivity() {
         titleET = findViewById(R.id.titleInfoET)
         priceET = findViewById(R.id.priceInfoET)
         descriptionET = findViewById(R.id.descriptionInfoET)
-        toReturnBTN = findViewById(R.id.toReturnBTN)
         saveBTN = findViewById(R.id.saveBTN)
 
         var grocery: Grocery = intent.extras?.getSerializable("grocery") as Grocery
@@ -60,7 +58,7 @@ class GroceryInfoActivity : AppCompatActivity() {
             val list: MutableList<Grocery> = grocerys as MutableList<Grocery>
 
             if (item != null) {
-                swap(item, grocery, grocerys)
+                swap(item, newGrocery, list)
             }
             check = false
 
@@ -71,12 +69,12 @@ class GroceryInfoActivity : AppCompatActivity() {
             //resultIntent.putExtra("description", descriptionET.text.toString())
             //resultIntent.putExtra("image", imageIV.tag?.toString())
             resultIntent.putExtra("newCheck", check)
-            startActivity(intent)
-            //finish()
+            startActivity(resultIntent)
+            finish()
             //setResult(RESULT_OK, resultIntent)
+            //finish()
 
         }
-        toReturnBTN.setOnClickListener { finish() }
     }
 
     private fun swap(item: Int, grocery: Grocery, grocerys: MutableList<Grocery>) {
